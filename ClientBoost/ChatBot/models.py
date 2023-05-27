@@ -14,11 +14,12 @@ class Context(models.Model):
 
 
 class Session(models.Model):
+    external_id = models.IntegerField(default=0)
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE, related_name="sessions")
-    phone_number = models.CharField(max_length=15)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
 
 
 class History(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="histories")
-    text = models.TextField()
+    text = models.JSONField(default=dict)
