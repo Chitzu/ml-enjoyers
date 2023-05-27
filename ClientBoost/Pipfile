@@ -12,6 +12,9 @@ torch = "*"
 torchvision = "*"
 torchaudio = "*"
 numpy = "*"
+aiohttp = "*"
+channels = "*"
+channels-redis = "*"
 
 [dev-packages]
 
