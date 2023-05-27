@@ -18,8 +18,10 @@ class Bank(models.Model):
 
 class Review(models.Model):
     text = models.TextField()
-    bank = models.ForeignKey(Bank, on_delete=models.SET_NULL, null=True, blank=True)
-    label = models.ForeignKey(ProblemLabel, on_delete=models.SET_NULL, null=True, blank=True)
+    bank = models.ForeignKey(Bank, on_delete=models.SET_NULL, null=True, blank=True, related_name="reviews")
+    label = models.ForeignKey(ProblemLabel, on_delete=models.SET_NULL, null=True, blank=True, related_name="reviews")
 
     def __str__(self):
         return f"{self.text} {self.bank} {self.label}"
+
+

@@ -15,6 +15,7 @@ numpy = "*"
 aiohttp = "*"
 channels = "*"
 channels-redis = "*"
+psycopg = "*"
 
 [dev-packages]
 
