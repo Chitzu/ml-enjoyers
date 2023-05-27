@@ -2,7 +2,14 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
-admin.site.register(Ad)
+
+class ContextInline(admin.TabularInline):
+    model = Context
+    extra = 1
+
+
+class AdAdmin(admin.ModelAdmin):
+    inlines = [ContextInline]
 
 
 class HistoryInline(admin.TabularInline):
@@ -15,3 +22,4 @@ class SessionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Session, SessionAdmin)
+admin.site.register(Ad, AdAdmin)

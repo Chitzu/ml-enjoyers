@@ -1,20 +1,23 @@
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
+from django.core.exceptions import PermissionDenied
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+import telebot
+import json
+
+TOKEN = '6063794957:AAFRLqmybg9fnCde4OqQuP-7QdKSqnQ13HY'
+tbot = telebot.TeleBot(TOKEN)
 
 
 @csrf_exempt
-@require_POST
-def webhook_view(request):
-    # In a real use case, you'd do something with the data you've received.
-    # This could be anything from storing it in your database, sending an email,
-    # updating other systems, etc.
-    # You should also check the validity and authenticity of the received data.
+def bot(request):
+    if request.META['CONTENT_TYPE'] == 'application/json':
+        json_data = json.loads(request.body)
+        tbot.send_message(json_data["message"]["chat"]["id"], "asdsad")
+        return JsonResponse({"success": True})
+    else:
+        raise PermissionDenied
 
-    # Parse the JSON data from the request body
-    data = json.loads(request.body)
 
-    # Do something with the data...
-
-    # Return a response to acknowledge receipt of the data
-    return HttpResponse(status=200)
+@tbot.message_handler(commands=['start'])
+def greet(m):
+    tbot.send_message(m.chat.id, "Hello")

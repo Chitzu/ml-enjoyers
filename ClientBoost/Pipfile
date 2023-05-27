@@ -16,6 +16,7 @@ aiohttp = "*"
 channels = "*"
 channels-redis = "*"
 psycopg = "*"
+telebot = "*"
 
 [dev-packages]
 

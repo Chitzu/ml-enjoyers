@@ -1,5 +1,6 @@
+from .views import bot
 from django.urls import path
-from .views import webhook_view
+
 urlpatterns = [
-    path("webhook/", webhook_view)
+  path('bot/', bot, name="bot"),
 ]
