@@ -33,3 +33,9 @@ def bot(request):
     else:
         raise PermissionDenied
 
+
+def view_ad(request):
+    from django.shortcuts import render
+    return render(request, 'ChatBot/ad_1.html')
+    pass
+
