@@ -15,16 +15,21 @@ def bot(request):
     if request.META['CONTENT_TYPE'] == 'application/json':
         json_data = json.loads(request.body)
         chat_id = json_data["message"]["chat"]["id"]
-        print(chat_id)
-        session = Session.objects.get_or_create(external_id=chat_id, defaults={"ad_id": 1})[0]
-        History.objects.create(session=session, text={"role": "user", "content": json_data["message"]["text"]})
-        chat_response = call_chat(session)
-        tbot.send_message(chat_id, chat_response)
+        message_text = json_data["message"]["text"]
+        print(message_text)
+        if message_text.startswith('/start'):
+            command, _, param = message_text.partition(' ')
+            session = Session.objects.create(external_id=chat_id, ad_id=param)
+            tbot.send_message(chat_id, session.ad.first_text)
+        else:
+            try:
+                session = Session.objects.get(external_id=chat_id)
+                History.objects.create(session=session, text={"role": "user", "content": message_text})
+                chat_response = call_chat(session)
+                tbot.send_message(chat_id, chat_response)
+            except Exception as e:
+                print(e)
         return JsonResponse({"success": True})
     else:
         raise PermissionDenied
 
-
-@tbot.message_handler(commands=['start'])
-def greet(m):
-    tbot.send_message(m.chat.id, "Hello")

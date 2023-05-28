@@ -6,6 +6,7 @@ from dataset_prepare.models import *
 class Ad(models.Model):
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE, related_name="ads")
     labels = models.ManyToManyField(ProblemLabel, related_name="ads")
+    first_text = models.TextField(default="Buna")
 
 
 class Context(models.Model):
